@@ -1,6 +1,5 @@
 import './App.css';
 import { TonConnectButton } from '@tonconnect/ui-react';
-
 import'@twa-dev/sdk'
 
 function App() {
@@ -13,3 +12,5 @@ function App() {
 }
 
 export default App
+
+

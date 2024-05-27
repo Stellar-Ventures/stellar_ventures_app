@@ -10,6 +10,5 @@ const manifestUrl = 'https://stellar-ventures.github.io/stellar_ventures_app/ton
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <TonConnectUIProvider manifestUrl={manifestUrl} >
     <App />
-
   </TonConnectUIProvider>,
 )
