@@ -1,33 +1,35 @@
-import { TonConnectButton } from '@tonconnect/ui-react'
 import '@twa-dev/sdk'
 import { useState } from 'react'
+import ClickIcon from '../public/click-icon.png' // Подключаем PNG изображение
 import './App.css'
-import { Settings } from './pend'
 
 function App() {
 	const [clicks, setClicks] = useState(0)
 	const [multiplier, setMultiplier] = useState(1)
+	const [upgradeCost, setUpgradeCost] = useState(10) // Начальная стоимость улучшения
 
 	// Функция для увеличения количества кликов
 	const handleClick = () => {
 		setClicks(clicks + multiplier)
 	}
 
-	// Функция для улучшения (увеличивает множитель кликов)
+	// Функция для улучшения (увеличивает множитель кликов и стоимость улучшений)
 	const upgradeClickPower = () => {
-		if (clicks >= 10) {
-			// Требует 10 кликов для прокачки
-			setClicks(clicks - 10)
-			setMultiplier(multiplier + 1)
+		if (clicks >= upgradeCost) {
+			setClicks(clicks - upgradeCost) // Снимаем клики на покупку улучшения
+			setMultiplier(multiplier + 1) // Увеличиваем мощность клика
+
+			// Увеличиваем стоимость улучшения на 30% каждый раз
+			setUpgradeCost(Math.floor(upgradeCost * 1.3)) // Плавное увеличение цены на 30%
 		}
 	}
 
 	return (
 		<div className='App'>
-			<TonConnectButton />
-			<Settings />
+			{/* <TonConnectButton />
+			<Settings /> */}
 
-			{/* Круглая кнопка */}
+			{/* Круглая кнопка с картинкой */}
 			<div
 				className='clicker-circle'
 				onClick={handleClick}
@@ -35,31 +37,49 @@ function App() {
 					width: '150px',
 					height: '150px',
 					borderRadius: '50%',
-					backgroundColor: '#4CAF50',
+					background: 'linear-gradient(135deg, #cccccc, #666666)', // Серый градиент
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'center',
-					fontSize: '24px',
-					color: '#fff',
-					margin: '20px auto',
+					position: 'relative',
 					cursor: 'pointer',
+					margin: '20px auto',
 				}}
 			>
-				{clicks} кликов
+				{/* Внутреннее изображение PNG */}
+				<img
+					src={ClickIcon}
+					alt='Click icon'
+					style={{
+						width: '80px',
+						height: '80px',
+						position: 'absolute',
+					}}
+				/>
+				<span
+					style={{
+						position: 'absolute',
+						bottom: '-30px',
+						fontSize: '18px',
+						color: '#fff',
+					}}
+				>
+					{clicks} кликов
+				</span>
 			</div>
 
 			{/* Кнопка для прокачки */}
 			<button
 				onClick={upgradeClickPower}
-				disabled={clicks < 10}
+				disabled={clicks < upgradeCost}
 				style={{
 					padding: '10px 20px',
 					fontSize: '18px',
 					marginTop: '20px',
-					cursor: clicks >= 10 ? 'pointer' : 'not-allowed',
+					cursor: clicks >= upgradeCost ? 'pointer' : 'not-allowed',
 				}}
 			>
-				Прокачать (10 кликов)
+				Прокачать ({upgradeCost} кликов)
 			</button>
 
 			{/* Отображаем текущий множитель */}
